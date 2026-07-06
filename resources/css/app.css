@@ -1,0 +1,979 @@
+/* ────────────────────────────────────────────────────────────────────────
+   SPK Pembiayaan KSPPS — Stylesheet (Hybrid Bootstrap 5 + Tailwind)
+   Acuan: DESIGN.md — palet FinTech Syariah humanis, geometri modern
+   ──────────────────────────────────────────────────────────────────────── */
+
+/* 1. Inter font (lokal via Vite) */
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+
+/* 2. Bootstrap dulu (reboot.css aktif) */
+@import "bootstrap/dist/css/bootstrap.min.css";
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
+/* 3. Tailwind components + utilities (preflight dimatikan di config) */
+@tailwind components;
+@tailwind utilities;
+
+/* ────────────────────────────────────────────────────────────────────────
+   §1.2 — Palet Warna Humanis & Tepercaya (DESIGN.md baru)
+   ──────────────────────────────────────────────────────────────────────── */
+:root {
+    /* Brand — Emerald Hijau Zamrud */
+    --color-primary-950: #082B22;
+    --color-primary-900: #0E3B2E;
+    --color-primary-700: #14543F;
+    --color-primary-500: #2D8A6B;
+    --color-primary-300: #7FC2A8;
+    --color-primary-100: #E6F1EC;
+    --color-primary-50:  #F2F8F5;
+
+    /* Secondary — Slate / Charcoal */
+    --color-secondary-900: #0F1E2C;
+    --color-secondary-800: #1F2D3D;
+    --color-secondary-600: #475569;
+    --color-secondary-400: #94A3B8;
+
+    /* Mint / Teal aksen */
+    --color-mint-500: #5EBFA0;
+    --color-mint-100: #DCEFE7;
+    --color-teal-700: #115E59;
+
+    /* Surface */
+    --color-bg-app:      #F8FAFC;
+    --color-bg-app-alt:  #F3F4F6;
+    --color-bg-surface:  #FFFFFF;
+    --color-bg-subtle:   #F8FAFC;
+    --color-bg-elevated: #FCFCFD;
+    --color-border:        #E2E8F0;
+    --color-border-strong: #CBD5E1;
+
+    /* Typography */
+    --color-text-strong:  #0F1E2C;
+    --color-text-body:    #1F2D3D;
+    --color-text-muted:   #64748B;
+    --color-text-inverse: #FFFFFF;
+
+    /* Status badges */
+    --color-status-priority-bg: #EEF2FF;
+    --color-status-priority-fg: #3730A3;
+    --color-status-priority-bd: #C7D2FE;
+
+    --color-status-accept-bg: #DCFCE7;
+    --color-status-accept-fg: #166534;
+    --color-status-accept-bd: #BBF7D0;
+
+    --color-status-reject-bg: #FEE2E2;
+    --color-status-reject-fg: #991B1B;
+    --color-status-reject-bd: #FECACA;
+
+    --color-status-pending-bg: #FEF3C7;
+    --color-status-pending-fg: #92400E;
+    --color-status-pending-bd: #FDE68A;
+
+    /* Gradients (mikro) */
+    --gradient-primary-soft: linear-gradient(135deg, #14543F 0%, #0E3B2E 100%);
+    --gradient-kpi-accent:   linear-gradient(180deg, #F2F8F5 0%, #FFFFFF 100%);
+
+    /* Elevation */
+    --elev-1: 0 1px 2px rgba(15, 30, 44, 0.04), 0 1px 3px rgba(15, 30, 44, 0.03);
+    --elev-2: 0 4px 12px rgba(15, 30, 44, 0.06), 0 2px 4px rgba(15, 30, 44, 0.04);
+    --elev-3: 0 10px 24px rgba(15, 30, 44, 0.08);
+
+    --color-focus-ring: rgba(14, 59, 46, 0.22);
+
+    /* Font families */
+    --font-sans: 'Inter', 'Segoe UI', 'Roboto', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Consolas', 'Courier New', monospace;
+
+    /* Bootstrap variable overrides */
+    --bs-primary: #0E3B2E;
+    --bs-primary-rgb: 14, 59, 46;
+    --bs-secondary: #1F2D3D;
+    --bs-success: #166534;
+    --bs-danger: #991B1B;
+    --bs-warning: #92400E;
+    --bs-info: #3730A3;
+    --bs-body-bg: #F8FAFC;
+    --bs-body-color: #1F2D3D;
+    --bs-border-color: #E2E8F0;
+    --bs-border-radius:    0.5rem;   /* 8px — kartu */
+    --bs-border-radius-sm: 0.375rem; /* 6px — input/tombol */
+    --bs-border-radius-lg: 0.75rem;  /* 12px — modal/KPI */
+    --bs-link-color: #0E3B2E;
+    --bs-link-hover-color: #14543F;
+    --bs-font-sans-serif: var(--font-sans);
+}
+
+/* ──────────────────────────────────────────────────────────────── 2. Base */
+* { box-sizing: border-box; }
+
+html, body {
+    height: 100%;
+    margin: 0;
+    background-color: var(--color-bg-app);
+    color: var(--color-text-body);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 { color: var(--color-text-strong); font-weight: 600; }
+
+a { color: var(--color-primary-900); text-decoration: none; }
+a:hover { color: var(--color-primary-700); }
+
+/* ────────────────────────────────────────────────── 3. Typography Tokens */
+.text-display { font-size: 36px; line-height: 1.10; font-weight: 700; color: var(--color-text-strong); font-variant-numeric: tabular-nums; }
+.text-h1 { font-size: 24px; line-height: 1.25; font-weight: 700; color: var(--color-text-strong); }
+.text-h2 { font-size: 20px; line-height: 1.3; font-weight: 600; color: var(--color-text-strong); }
+.text-h3 { font-size: 16px; line-height: 1.4; font-weight: 600; color: var(--color-text-strong); }
+.text-body { font-size: 14px; line-height: 1.55; font-weight: 400; }
+.text-body-strong { font-size: 14px; line-height: 1.55; font-weight: 600; }
+.text-label {
+    font-size: 12px; line-height: 1.4; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+}
+.text-meta { font-size: 12px; line-height: 1.45; font-weight: 400; color: var(--color-text-muted); }
+.text-numeric, .font-numeric {
+    font-size: 14px; line-height: 1.4; font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+}
+.text-muted-strong { color: var(--color-text-muted); }
+
+/* ─────────────────────────────────────── 4. App Shell — Sidebar + Content */
+.app-sidebar {
+    background-color: var(--color-secondary-900);
+    color: #C9D2DD;
+    padding: 24px 0;
+    width: 248px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 1030;
+}
+
+.app-sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 20px 24px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    margin-bottom: 16px;
+}
+
+.app-sidebar-brand-mark {
+    width: 36px;
+    height: 36px;
+    background-color: var(--color-primary-900);
+    color: var(--color-text-inverse);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    flex-shrink: 0;
+}
+
+/* Logo mini KSPPS pada sidebar — menyatu transparan dengan latar gelap */
+.app-sidebar-brand-logo {
+    width: auto;
+    height: 32px;
+    max-height: 32px;
+    max-width: 80px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.app-sidebar-brand-text {
+    color: var(--color-text-inverse);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.app-sidebar-group { margin-bottom: 16px; }
+
+.app-sidebar-group-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-secondary-400);
+    padding: 8px 20px;
+    font-weight: 600;
+}
+
+.app-sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 20px;
+    color: #C9D2DD;
+    font-size: 14px;
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    transition: background-color 120ms ease, color 120ms ease;
+}
+
+.app-sidebar-item:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+    color: var(--color-text-inverse);
+}
+
+/* DESIGN.md §4.4: garis vertikal 3px PRIMARY-500 (#2D8A6B), bukan #0E3B2E */
+.app-sidebar-item.active {
+    background-color: rgba(255, 255, 255, 0.04);
+    color: var(--color-text-inverse);
+    border-left-color: var(--color-primary-500);
+}
+
+.app-sidebar-item i {
+    font-size: 18px;
+    width: 18px;
+    text-align: center;
+}
+
+/* Topbar */
+.app-topbar {
+    height: 56px;
+    background-color: var(--color-bg-surface);
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    padding: 0 32px;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.app-topbar-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-text-strong);
+    margin: 0;
+}
+
+.app-topbar-periode {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    font-size: 13px;
+    color: var(--color-text-body);
+    background-color: var(--color-bg-subtle);
+}
+
+.app-topbar-periode .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--color-text-muted);
+}
+
+.app-topbar-periode .dot.aktif { background-color: var(--color-primary-500); }
+
+.app-topbar-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: var(--color-primary-100);
+    color: var(--color-primary-900);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    border: none;
+}
+
+.app-topbar-burger {
+    display: none;
+    width: 36px;
+    height: 36px;
+    background: none;
+    border: none;
+    color: var(--color-text-body);
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.app-topbar-burger:hover { background-color: var(--color-bg-subtle); }
+
+/* Konten utama — fluid penuh */
+.app-main {
+    padding: 32px;
+    width: 100%;
+}
+
+/* Kolom kanan — offset sidebar fixed */
+.app-content {
+    margin-left: 248px;
+    width: calc(100% - 248px);
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ───────────────────────────────────────────────────────── 5. Card */
+.card {
+    background-color: var(--color-bg-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;          /* DESIGN.md §1.5: kartu standar 8px */
+    box-shadow: none;
+}
+
+.card-hoverable { transition: box-shadow 150ms ease, border-color 150ms ease; }
+.card-hoverable:hover { box-shadow: var(--elev-1); border-color: var(--color-border-strong); }
+
+.card-header {
+    background-color: transparent;
+    border-bottom: 1px solid var(--color-border);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.card-header h1, .card-header h2, .card-header h3 { margin: 0; }
+
+.card-body { padding: 20px; }
+
+.card-footer {
+    background-color: transparent;
+    border-top: 1px solid var(--color-border);
+    padding: 12px 20px;
+    text-align: right;
+}
+
+/* ────────────────────────────────────────────────── 6. KPI Card (DESIGN.md §4.2) */
+.kpi-card {
+    position: relative;
+    background: var(--gradient-kpi-accent);      /* gradient mikro #F2F8F5 → #FFFFFF */
+    border: 1px solid var(--color-border);
+    border-radius: 12px;                          /* §1.5: KPI card 12px */
+    padding: 20px 24px 20px 28px;
+    overflow: hidden;
+    box-shadow: var(--elev-1);
+    transition: box-shadow 200ms ease;
+}
+
+.kpi-card:hover { box-shadow: var(--elev-2); }
+
+/* Garis aksen vertikal 3px kiri (DESIGN.md §4.2, §9) */
+.kpi-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background-color: var(--color-primary-900);
+}
+
+.kpi-card.kpi-accept::before   { background-color: var(--color-status-accept-fg); }
+.kpi-card.kpi-reject::before   { background-color: var(--color-status-reject-fg); }
+.kpi-card.kpi-priority::before { background-color: var(--color-status-priority-fg); }
+.kpi-card.kpi-pending::before  { background-color: var(--color-status-pending-fg); }
+
+.kpi-card-label {
+    font-size: 12px;
+    color: var(--color-text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.kpi-card-label i {
+    font-size: 16px;
+    color: var(--color-text-muted);
+}
+
+.kpi-card-value {
+    font-size: 36px;
+    line-height: 1.10;
+    font-weight: 700;
+    color: var(--color-text-strong);
+    font-variant-numeric: tabular-nums;
+    margin-bottom: 8px;
+}
+
+.kpi-card-meta { font-size: 12px; color: var(--color-text-muted); }
+
+/* ──────────────────────────────────────────── 7. Tabel Finansial (§4.5) */
+.table-finansial {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--color-bg-surface);
+}
+
+.table-finansial thead th {
+    background-color: var(--color-bg-subtle);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--color-border);
+    height: 44px;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.table-finansial tbody td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: middle;
+    color: var(--color-text-body);
+}
+
+.table-finansial tbody tr:last-child td { border-bottom: none; }
+
+.table-finansial tbody tr { transition: background-color 120ms ease; }
+.table-finansial tbody tr:hover { background-color: #F1F5F9; }
+
+.table-finansial .col-right { text-align: right; }
+.table-finansial .col-nominal {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+    font-weight: 500;
+    white-space: nowrap;
+}
+.table-finansial .col-nama {
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.table-finansial .col-actions { text-align: right; width: 120px; white-space: nowrap; }
+
+.rank-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;                           /* DESIGN.md §4.2: chip 28px */
+    height: 28px;
+    background-color: var(--color-primary-100);
+    color: var(--color-primary-900);
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ────────────────────────────────────────────────── 8. Badge Status (§2.3) */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    white-space: nowrap;
+    border: 1px solid transparent;
+}
+
+.status-priority {
+    background-color: var(--color-status-priority-bg);
+    color: var(--color-status-priority-fg);
+    border-color: var(--color-status-priority-bd);
+}
+.status-accept {
+    background-color: var(--color-status-accept-bg);
+    color: var(--color-status-accept-fg);
+    border-color: var(--color-status-accept-bd);
+}
+.status-reject {
+    background-color: var(--color-status-reject-bg);
+    color: var(--color-status-reject-fg);
+    border-color: var(--color-status-reject-bd);
+}
+.status-pending {
+    background-color: var(--color-status-pending-bg);
+    color: var(--color-status-pending-fg);
+    border-color: var(--color-status-pending-bd);
+}
+
+.status-accept-secondary {
+    background-color: var(--color-status-accept-bg);
+    color: var(--color-status-accept-fg);
+    border-color: var(--color-status-accept-bd);
+}
+.status-accept-secondary::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--color-text-muted);
+}
+
+/* Badge Kriteria [B] [C] — DESIGN.md §4.3 */
+.badge-criteria {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0;
+    margin-right: 8px;
+    flex-shrink: 0;
+    border: 1px solid transparent;
+}
+.badge-criteria-benefit {
+    background-color: var(--color-status-accept-bg);
+    color: var(--color-status-accept-fg);
+    border-color: var(--color-status-accept-bd);
+}
+.badge-criteria-cost {
+    background-color: var(--color-status-reject-bg);
+    color: var(--color-status-reject-fg);
+    border-color: var(--color-status-reject-bd);
+}
+
+/* ───────────────────────────────────────────────────────── 9. Tombol (§3.6) */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 40px;
+    padding: 0 20px;
+    border-radius: 6px;                  /* DESIGN.md §1.5: tombol 6px */
+    font-size: 14px;
+    font-weight: 600;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background-color 120ms ease, color 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+    text-decoration: none;
+    white-space: nowrap;
+    line-height: 1;
+}
+
+.btn-sm { height: 32px; padding: 0 14px; font-size: 13px; }
+.btn-lg { height: 48px; padding: 0 28px; font-size: 15px; }
+
+.btn-primary {
+    background-color: var(--color-primary-900);
+    color: var(--color-text-inverse) !important;
+    border-color: var(--color-primary-900);
+}
+.btn-primary:hover {
+    background-color: var(--color-primary-700);
+    border-color: var(--color-primary-700);
+    color: var(--color-text-inverse) !important;
+}
+
+/* Tombol primary penting (Simpan & Hitung, Terapkan Ambang Baru) — gradient mikro */
+.btn-primary-strong {
+    background: var(--gradient-primary-soft);
+    color: var(--color-text-inverse) !important;
+    border-color: var(--color-primary-900);
+    box-shadow: var(--elev-1);
+}
+.btn-primary-strong:hover {
+    box-shadow: var(--elev-2);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--color-secondary-800) !important;
+    border-color: var(--color-border-strong);
+}
+.btn-secondary:hover {
+    background-color: var(--color-bg-subtle);
+    border-color: var(--color-border-strong);
+}
+
+.btn-ghost {
+    background-color: transparent;
+    color: var(--color-secondary-800) !important;
+    border-color: transparent;
+}
+.btn-ghost:hover { background-color: var(--color-bg-subtle); }
+
+.btn-danger-ghost {
+    background-color: transparent;
+    color: var(--color-secondary-800) !important;
+    border-color: transparent;
+}
+.btn-danger-ghost:hover {
+    color: var(--color-status-reject-fg) !important;
+    background-color: var(--color-status-reject-bg);
+}
+
+.btn:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--color-focus-ring);
+}
+
+.btn[disabled], .btn:disabled { opacity: 0.7; cursor: not-allowed; }
+
+.btn-icon {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border-radius: 6px;
+}
+
+/* ──────────────────────────────────────────────── 10. Form Control (§3.7) */
+.form-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text-strong);
+    margin-bottom: 6px;
+}
+
+.form-helper {
+    font-size: 12px;
+    color: var(--color-text-muted);
+    margin-top: 6px;
+}
+
+.form-error {
+    font-size: 12px;
+    color: var(--color-status-reject-fg);
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.form-required { color: var(--color-status-reject-fg); }
+
+.form-control, .form-select {
+    width: 100%;
+    height: 40px;
+    padding: 8px 12px;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 6px;                  /* DESIGN.md §1.5: input 6px */
+    font-size: 14px;
+    font-family: var(--font-sans);
+    color: var(--color-text-body);
+    background-color: var(--color-bg-surface);
+    transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+
+textarea.form-control { min-height: 80px; height: auto; padding: 10px 12px; resize: vertical; }
+
+/* Select sebagai listbox (size > 1) — cegah melar mengikuti option terpanjang */
+.form-select-listbox {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    box-sizing: border-box;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.form-select-listbox option {
+    display: block;
+    padding: 8px 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+}
+.form-select-listbox option:checked {
+    background-color: var(--color-primary-100);
+    color: var(--color-primary-900);
+    font-weight: 600;
+}
+
+.form-control:focus, .form-select:focus {
+    outline: none;
+    border-color: var(--color-primary-500);
+    box-shadow: 0 0 0 3px var(--color-focus-ring);
+}
+
+.form-control:disabled, .form-select:disabled {
+    background-color: var(--color-bg-subtle);
+    color: var(--color-text-muted);
+    cursor: not-allowed;
+}
+
+.form-control.is-invalid, .form-select.is-invalid {
+    border-color: var(--color-status-reject-fg);
+}
+
+.input-group-password { position: relative; }
+.input-group-password .form-control { padding-right: 40px; }
+.input-group-password .toggle-pwd {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-muted);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+}
+.input-group-password .toggle-pwd:hover { background-color: var(--color-bg-subtle); }
+
+.form-check-input {
+    accent-color: var(--color-primary-900);
+    width: 16px;
+    height: 16px;
+}
+
+/* ────────────────────────────────────────────────── 11. Alerts (§5.3) */
+.alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    border-left-width: 3px;
+    margin-bottom: 16px;
+    font-size: 14px;
+}
+
+.alert-success {
+    background-color: var(--color-status-accept-bg);
+    color: var(--color-status-accept-fg);
+    border-color: var(--color-status-accept-bd);
+    border-left-color: var(--color-status-accept-fg);
+}
+.alert-danger {
+    background-color: var(--color-status-reject-bg);
+    color: var(--color-status-reject-fg);
+    border-color: var(--color-status-reject-bd);
+    border-left-color: var(--color-status-reject-fg);
+}
+.alert-warning {
+    background-color: var(--color-status-pending-bg);
+    color: var(--color-status-pending-fg);
+    border-color: var(--color-status-pending-bd);
+    border-left-color: var(--color-status-pending-fg);
+}
+.alert-info {
+    background-color: var(--color-status-priority-bg);
+    color: var(--color-status-priority-fg);
+    border-color: var(--color-status-priority-bd);
+    border-left-color: var(--color-status-priority-fg);
+}
+
+.alert-icon { font-size: 18px; line-height: 1; flex-shrink: 0; margin-top: 1px; }
+.alert-body { flex: 1; }
+.alert-close {
+    background: none; border: none; color: inherit;
+    opacity: 0.7; cursor: pointer;
+    padding: 0; width: 24px; height: 24px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 4px;
+}
+.alert-close:hover { opacity: 1; background-color: rgba(0, 0, 0, 0.06); }
+
+/* ────────────────────────────────────────────────── 12. Login Layout (§4.1) */
+.auth-shell {
+    min-height: 100vh;
+    background-color: var(--color-bg-app);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 16px;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 420px;
+    background-color: var(--color-bg-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;                /* DESIGN.md §4.1: 12px */
+    padding: 32px;
+    box-shadow: var(--elev-2);
+}
+
+.auth-brand { text-align: center; margin-bottom: 24px; }
+
+.auth-brand-mark {
+    width: 56px;
+    height: 56px;
+    background-color: var(--color-primary-900);
+    color: var(--color-text-inverse);
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 20px;
+    margin-bottom: 16px;
+    letter-spacing: 0.05em;
+}
+
+/* Logo asli KSPPS pada halaman login */
+.auth-brand-img {
+    display: block;
+    width: auto;
+    height: 64px;          /* setara h-16 Tailwind */
+    max-width: 220px;
+    object-fit: contain;
+    margin: 0 auto 16px auto;
+}
+
+.auth-divider {
+    border-top: 1px solid var(--color-border);
+    margin: 24px 0;
+}
+
+.auth-footer {
+    margin-top: 32px;
+    color: var(--color-text-muted);
+    font-size: 12px;
+    text-align: center;
+}
+
+/* ──────────────────────────────────────────────────────── 13. Section Header */
+.section-header { margin-bottom: 24px; }
+.section-header h1 { margin-bottom: 6px; }
+.section-header .breadcrumb-meta {
+    font-size: 13px;
+    color: var(--color-text-muted);
+}
+
+/* ────────────────────────────────────────────────── 14. Spinner (§5.1) */
+.spinner-inline {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.45);
+    border-top-color: #FFFFFF;
+    animation: spin 0.6s linear infinite;
+    display: inline-block;
+    vertical-align: -2px;
+    margin-right: 8px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ────────────────────────────────────────────────── 15. Empty State (§5.2) */
+.empty-state {
+    text-align: center;
+    padding: 64px 32px;
+    color: var(--color-text-muted);
+}
+.empty-state-icon {
+    font-size: 48px;
+    color: var(--color-border-strong);
+    margin-bottom: 16px;
+    display: block;
+}
+.empty-state-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-text-strong);
+    margin-bottom: 8px;
+}
+.empty-state-body {
+    font-size: 14px;
+    color: var(--color-text-muted);
+    margin: 0 auto 24px auto;
+    max-width: 460px;
+    line-height: 1.55;
+}
+
+/* ──────────────────────────────────────────── 16. Quick Action (Dashboard) */
+.quick-action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    background-color: var(--color-bg-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    color: var(--color-text-body);
+    text-decoration: none;
+    transition: border-color 150ms ease, background-color 150ms ease, box-shadow 150ms ease;
+}
+.quick-action:hover {
+    border-color: var(--color-primary-500);
+    background-color: var(--color-primary-50);
+    color: var(--color-text-strong);
+    box-shadow: var(--elev-1);
+}
+.quick-action i.action-arrow { font-size: 18px; color: var(--color-text-muted); }
+.quick-action-label { font-weight: 600; font-size: 14px; }
+.quick-action-meta { font-size: 12px; color: var(--color-text-muted); }
+
+/* ─────────────────────────────────────────── 17. Modal (DESIGN.md §5.4) */
+.modal-content {
+    border-radius: 12px !important;       /* §5.4: modal 12px */
+    border: 1px solid var(--color-border);
+    box-shadow: var(--elev-3) !important;
+}
+.modal-backdrop.show { opacity: 0.45; background-color: #0F1E2C; }
+
+/* ──────────────────────────────────────────────────────── 18. Pagination (Bootstrap 5) */
+.pagination .page-link {
+    color: var(--color-secondary-800);
+    border-color: var(--color-border);
+}
+.pagination .page-item.active .page-link {
+    background-color: var(--color-primary-900);
+    border-color: var(--color-primary-900);
+    color: var(--color-text-inverse);
+}
+.pagination .page-link:hover {
+    background-color: var(--color-primary-50);
+    color: var(--color-primary-900);
+    border-color: var(--color-primary-300);
+}
+
+/* ──────────────────────────────────────────────────────── 19. Responsive */
+.sidebar-backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(15, 30, 44, 0.45);
+    z-index: 1040;
+    display: none;
+}
+
+@media (max-width: 991.98px) {
+    .app-content {
+        margin-left: 0;
+        width: 100%;
+    }
+    .app-sidebar {
+        z-index: 1050;
+        transform: translateX(-100%);
+        transition: transform 200ms ease;
+    }
+    .app-sidebar.open { transform: translateX(0); }
+    .app-topbar-burger { display: inline-flex; align-items: center; justify-content: center; }
+    .app-main { padding: 16px; }
+    .sidebar-backdrop.open { display: block; }
+}
